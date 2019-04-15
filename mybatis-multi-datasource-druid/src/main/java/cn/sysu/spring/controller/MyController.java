@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-public class UserController {
+public class MyController {
     @Autowired
     public UserMapper userMapper;
 
@@ -18,7 +20,7 @@ public class UserController {
     public PhoneMapper phoneMapper;
 
     @GetMapping("/user")
-    public User getUser() {
+    public List<User> getUser() {
         return userMapper.findByName("a");
     }
 
@@ -28,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/phone")
-    public Phone getPhone() {
+    public List<Phone> getPhone() {
         return phoneMapper.findByPrice(10);
     }
 
