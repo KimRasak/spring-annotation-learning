@@ -1,5 +1,8 @@
 */target
 */.mvn
 */.idea
+*/.idea
 */.mvn
 */lib
+
+.idea
