@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sysu.spring.mapper.UserMapper" >
+
+    <resultMap id="UserResultMap" type="cn.sysu.spring.entity.User" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <association property="phone" column="user_phone_id" javaType="cn.sysu.spring.entity.Phone">
+            <id column="phone_id" property="id"/>
+            <result column="price" property="price"/>
+        </association>
+    </resultMap>
+
+    <select id="queryAllUser" resultMap="UserResultMap">
+        SELECT
+          U.user_id, U.name, U.phone_id as user_phone_id,
+          P.phone_id, P.price
+        FROM user U
+        LEFT OUTER JOIN phone P
+          ON U.phone_id = P.phone_id
+    </select>
+</mapper>
