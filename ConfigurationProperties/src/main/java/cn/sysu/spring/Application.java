@@ -1,15 +1,15 @@
 package cn.sysu.spring;
 
 import cn.sysu.spring.entity.Big;
-import cn.sysu.spring.entity.BigExample;
 import cn.sysu.spring.mapper.BigMapper;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 /***
  * 使用EnableConfigurationProperties引入MyConfig
@@ -17,23 +17,20 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  */
 @SpringBootApplication
 @MapperScan(basePackages = "cn.sysu.spring.mapper")
-@EnableConfigurationProperties(MyConfig.class)
 public class Application implements CommandLineRunner {
 
-	@Autowired BigMapper bigMapper;
-
-	@Autowired MyComponent component;
-	@Autowired MyConfig config;
+	@Autowired
+    BigMapper bigMapper;
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+		StudentBean studentBean = context.getBean(StudentBean.class);
+		System.out.println(studentBean.getName());
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		// insertRows
-		System.out.println(component.getName());
-		System.out.println(config.getAge());
+
 	}
 
 	private void insertRows() {

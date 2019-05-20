@@ -1,0 +1,13 @@
+{
+  "hints": [
+    {
+      "name": "student.name",
+      "values": [
+        {
+          "value": "nothing",
+          "description": "nothing to do"
+        }
+      ]
+    }
+  ]
+}
