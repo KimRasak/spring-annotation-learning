@@ -29,11 +29,18 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+
+	}
+
+	/**
+	 * 根据AppConfig加载Configuration，并试图获取StudentBean。
+	 * 若获取成功，说明Configuration正确加载了
+	 */
+	private void testStudentBean() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext (AppConfig.class);
 		StudentBean studentBean = context.getBean(StudentBean.class);
 		System.out.println(studentBean.getName());
 	}
-
 	private void insertRows() {
 		for (int i = 0; i < 1000000; i++) {
 			Big line = new Big();

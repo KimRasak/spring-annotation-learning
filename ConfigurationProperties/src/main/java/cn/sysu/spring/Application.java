@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -17,20 +18,20 @@ import org.springframework.context.annotation.Bean;
  */
 @SpringBootApplication
 @MapperScan(basePackages = "cn.sysu.spring.mapper")
-public class Application implements CommandLineRunner {
+public class Application {
 
 	@Autowired
     BigMapper bigMapper;
 
+
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
-		StudentBean studentBean = context.getBean(StudentBean.class);
-		System.out.println(studentBean.getName());
+		testStudentBean(context);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-
+	private static void testStudentBean(ApplicationContext context) {
+		StudentBean studentBean = context.getBean(StudentBean.class);
+		System.out.println(studentBean.getName());
 	}
 
 	private void insertRows() {
