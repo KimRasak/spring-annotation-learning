@@ -19,6 +19,9 @@ public class MyController {
     UserMapper userMapper;
 
     @GetMapping
-    @Transactional
-    public List<User> queryAllUser() { return userMapper.selectByExample(new UserExample()); }
+    public List<User> queryAllUser() {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andUserIdEqualTo(1);
+        return userMapper.selectByExample(userExample);
+    }
 }
