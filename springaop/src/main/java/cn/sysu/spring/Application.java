@@ -1,5 +1,6 @@
 package cn.sysu.spring;
 
+import cn.sysu.spring.annotation.ChangeValue;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -19,12 +20,7 @@ import java.lang.reflect.Proxy;
 public class Application {
 
 	public static void main(String[] args) {
-		 ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
-		 testStudentBean(context);
+		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
 	}
 
-	private static void testStudentBean(ApplicationContext context) {
-		StudentBean studentBean = context.getBean(StudentBean.class);
-		System.out.println(studentBean.getName());
-	}
 }
