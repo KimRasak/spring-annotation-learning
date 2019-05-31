@@ -1,5 +1,6 @@
 package cn.sysu.spring.mapper;
 
+import cn.sysu.spring.annotation.PrintMessage;
 import cn.sysu.spring.entity.User;
 import cn.sysu.spring.entity.UserExample;
 import java.util.List;
@@ -52,6 +53,7 @@ public interface UserMapper {
      *
      * @mbg.generated Tue May 28 22:33:57 CST 2019
      */
+    @PrintMessage
     List<User> selectByExample(UserExample example);
 
     /**

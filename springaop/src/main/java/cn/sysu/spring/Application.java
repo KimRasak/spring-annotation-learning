@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /***
@@ -19,8 +20,44 @@ import java.lang.reflect.Proxy;
 @MapperScan(basePackages = "cn.sysu.spring.mapper")
 public class Application {
 
+	interface Person {
+		public void say();
+	}
+
+	static class Student implements Person {
+		@Override
+		public void say() {
+			System.out.println("student say");
+		}
+
+		public void walk() {
+			System.out.println("student walk");
+		}
+	}
+
+	static class Handler implements InvocationHandler {
+		private Student s;
+
+		public Handler(Student s) {
+			this.s = s;
+		}
+
+		@Override
+		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+			System.out.println("before");
+			return method.invoke(s, args);
+		}
+	}
+
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+	}
+
+	public static void test() {
+		Handler h = new Handler(new Student());
+
+		Person s = (Person) Proxy.newProxyInstance(Student.class.getClassLoader(), Student.class.getInterfaces(), h);
+		s.say();
 	}
 
 }
