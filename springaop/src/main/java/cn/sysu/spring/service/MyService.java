@@ -7,13 +7,15 @@ import cn.sysu.spring.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MyService {
+public class MyService implements IService{
     @Autowired
     UserMapper userMapper;
 
+    @Override
     @ChangeValue
     public List<User> queryAllUser(String str) {
         UserExample userExample = new UserExample();
