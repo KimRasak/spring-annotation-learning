@@ -17,8 +17,7 @@ import org.springframework.web.client.RestTemplate;
  *
  * Created by bysocket on 16/4/26.
  */
-// Spring Boot 应用的标识
-// @SpringBootApplication
+@SpringBootApplication
 public class Application {
 
     public static void main(String[] args) {

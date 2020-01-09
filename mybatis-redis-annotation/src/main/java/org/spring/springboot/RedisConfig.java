@@ -42,41 +42,6 @@ public class RedisConfig extends CachingConfigurerSupport {
      * 在此我们将自己配置RedisTemplate并定义Serializer。
      *
      */
-
-// 存入redis时，默认使用的是JdkSerializationRedisSerializer，使得存入的数据全部序列化了，所需自定义一个RedisTemplate，使用其他序列化方式
-
-
-    //当redis依赖包导入的时候，默认的cache即可自动变成redis模式；如果只是导入cache的依赖，则默认的是simpleCacheManager；
-// 使用redis缓存时，RedisCacheManager生成RedisCache后生成缓存时默认使用JdkSerializationRedisSerializer序列化（cache存储的时候）
-
-    //当ioc容器内没有自定义的缓存管理器的时候---默认使用自带的；
-    //当通过@Bean在ioc容器中注入了以下管理器，则会使用自定义的管理器；
-
-//    @Bean
-//    public CacheManager cacheManager(RedisConnectionFactory factory) {
-//        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();  // 生成一个默认配置，通过config对象即可对缓存进行自定义配置
-//        config = config.entryTtl(Duration.ofMinutes(1))     // 设置缓存的默认过期时间，也是使用Duration设置
-//                .disableCachingNullValues();     // 不缓存空值
-//
-//        // 设置一个初始化的缓存空间set集合
-//        Set<String> cacheNames =  new HashSet<>();
-//        cacheNames.add("my-redis-cache1");
-//        cacheNames.add("my-redis-cache2");
-//
-//        // 对每个缓存空间应用不同的配置
-//        Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
-//        configMap.put("my-redis-cache1", config);
-//        configMap.put("my-redis-cache2", config.entryTtl(Duration.ofSeconds(120)));
-//
-//        RedisCacheManager cacheManager = RedisCacheManager.builder(factory)     // 使用自定义的缓存配置初始化一个cacheManager
-//                .initialCacheNames(cacheNames)  // 注意这两句的调用顺序，一定要先调用该方法设置初始化的缓存名，再初始化相关的配置
-//                .withInitialCacheConfigurations(configMap)
-//                .build();
-//        return cacheManager;
-//    }
-
-
-
     @Bean
     @Primary//当有多个管理器的时候，必须使用该注解在一个管理器上注释：表示该管理器为默认的管理器
     public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
@@ -96,16 +61,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         RedisSerializationContext.SerializationPair<Object> pair = RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer);
         RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair);
 
-        // RedisCacheConfiguration.defaultCacheConfig().
-
-        //序列化方式3
-        //Jackson2JsonRedisSerializer serializer=new Jackson2JsonRedisSerializer(Object.class);
-        //RedisSerializationContext.SerializationPair<Object> pair = RedisSerializationContext.SerializationPair.fromSerializer(serializer);
-        //RedisCacheConfiguration defaultCacheConfig=RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair);
-
         defaultCacheConfig = defaultCacheConfig.entryTtl(Duration.ofSeconds(100));//设置过期时间
-//        //设置默认超过期时间是30秒
-//        defaultCacheConfig.entryTtl(Duration.ofSeconds(30));
 
         //初始化RedisCacheManager
         RedisCacheManager cacheManager = new RedisCacheManager(redisCacheWriter, defaultCacheConfig);
@@ -122,7 +78,6 @@ public class RedisConfig extends CachingConfigurerSupport {
         return cacheManager;
     }
 
-
     /**
      *  设置 redis 数据默认过期时间
      *  设置@cacheable 序列化方式
@@ -135,7 +90,6 @@ public class RedisConfig extends CachingConfigurerSupport {
         configuration = configuration.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer)).entryTtl(Duration.ofDays(30));
         return configuration;
     }
-
 
     @Bean(name = "redisTemplate")
     @SuppressWarnings("unchecked")
@@ -155,18 +109,4 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
 
-//    @Bean
-//    public KeyGenerator KeyGenerator() {
-//        return new KeyGenerator(){
-//            public Object generate(Object target, Method method, Object... params) {
-//                StringBuilder sb = new StringBuilder();
-//                sb.append(target.getClass().getName());
-//                sb.append(method.getName());
-//                for (Object obj : params) {
-//                    sb.append(obj.toString());
-//                }
-//                return sb.toString();
-//            }
-//        };
-//    }
 }
