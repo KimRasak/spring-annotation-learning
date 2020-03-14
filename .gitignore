@@ -1,10 +1,10 @@
 */target
 */.mvn
-*/.idea
-*/.idea
-*/.mvn
 */lib
 
-.idea
 */spring.iml
 *.iml
+
+.idea
+out
+*.class
